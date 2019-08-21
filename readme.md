@@ -2,20 +2,20 @@
 
 <br/>
 
-# 👇 Why this guide can take your testing skills to the next level 
+# 👇 이 가이드가 당신의 테스트 스킬을 한 단계 끌어올리는 이유
 
 <br/>
 
-## 📗 45+ best practices: Super-comprehensive and exhaustive
-This is a guide for JavaScript & Node.js reliability from A-Z. It summarizes and curates for you dozens of the best blog posts, books and tools the market has to offer
+## 📗 45개 이상의 모범 사례: 매우 포괄적이고 철저하게
+이 가이드는 JavaScript & Node.js 안정성에 대해 하나부터 열까지 다룹니다. 수십 가지 최고의 블로그 게시물들, 시장에 존재하는 서적 및 도구들을 선별하고 요약합니다.
 
 
-## 🚢 Advanced: Goes 10,000 miles beyond the basics
-Hop into a journey that travels way beyond the basics into advanced topics like testing in production, mutation testing, property-based testing and many other strategic & professional tools. Should you read every word in this guide your testing skills are likely to go way above the average
+## 🚢 고급: 기초에서 10,000 마일 더 나아가기
+프로덕션 환경에서 테스트, 돌연변이 테스트, 속성 기반 테스트 및 기타 여러 전략적 & 전문적 도구와 같은 고급 주제를 향한 여정에 뛰어드세요. 이 가이드의 모든 단어를 읽는다면 테스트 스킬이 평균보다 크게 높아질 수 있습니다.
 
 
-## 🌐 Full-stack: front, backend, CI, anything
-Start by understanding the ubiquitous testing practices that are the foundation for any application tier. Then, delve into your area of choice: frontend/UI, backend, CI or maybe all of them?
+## 🌐 풀스택: 프런트, 백엔드, CI, 무엇이든
+어떤 어플리케이션 계층에도 기초가 되는, 어디에나 적용 가능한 테스트 방법을 이해하는 것으로 시작하세요. 그리고, 원하는 영역을 골라 파고드세요. 프런트엔드/UI, 백엔드, CI, 어쩌면 전부?
 
 <br/>
 
@@ -29,100 +29,101 @@ Start by understanding the ubiquitous testing practices that are the foundation 
 
 <br/><br/>
 
-# `Table of contents`
+# `목차`
 
-* ### `Section 0: The Golden Rule`
+* ### `Section 0: 황금률`
 
-A single advice that inspires all the others (1 special bullet)
+다른 모든 것에 영향을 주는 단 하나의 조언 (1개의 특별 항목)
 
-* ### `Section 1: The Test Anatomy`
+* ### `Section 1: 테스트 해부`
 
-The foundation - structuring clean tests (12 bullets)
-
-
-* ### `Section 2: Backend`
-
-Writing backend and Microservices tests efficiently (8 bullets)
+기초 - 테스트를 깔끔하게 구성하는 법 (12개의 항목)
 
 
-* ### `Section 3: Frontend, UI, E2E`
+* ### `Section 2: 백엔드`
 
-Writing tests for web UI including component and E2E tests (11 bullets)
-
-
-* ### `Section 4: Measuring Tests Effectivenss`
-
-Watching the watchman - measuring test quality (4 bullets)
+백엔드 및 마이크로서비스 테스트를 효율적으로 작성하는 법 (8개의 항목)
 
 
-* ### `Section 5: Continuous Integration`
+* ### `Section 3: 프런트엔드, UI, E2E`
 
-Guidelines for CI in the JS world (9 bullets)
+컴포넌트 및 E2E 테스트를 포함한 웹 UI 테스트를 작성하는 법 (11개의 항목)
+
+
+* ### `Section 4: 테스트의 효과 측정`
+
+감시자를 감시 - 테스트의 품질을 측정하는 법 (4개의 항목)
+
+
+* ### `Section 5: 지속적 통합 (CI)`
+
+JS 세계의 CI를 위한 가이드라인 (9개의 항목)
 
 
 <br/><br/>
 
 
-# Section 0️⃣  : The Golden Rule
+# Section 0️⃣  : 황금률
 
 <br/>
 
-## ⚪️ 0. The Golden Rule: Design for lean testing
+## ⚪️ 0. 황금률: 간결한 테스트를 위한 디자인
 
-:white_check_mark: **Do:** 
-Testing code is not like production-code - design it to be dead-simple, short, abstraction-free, flat, delightful to work with, lean. One should look at a test and get the intent instantly. 
+:white_check_mark: **하세요:** 테스트 코드는 프로덕션 코드와 다릅니다. 매우 간단하고, 짧고, 추상화가 없고, 평평하며, 작업하기 즐겁고, 간결하게 디자인 되어야 합니다. 테스트를 보고 즉시 의도를 알아챌 수 있어야 합니다.
 
-Our minds are full with the main production code, we don't have 'headspace' for additional complexity. Should we try to squeeze yet another challenging code into our poor brain it will slow the team down which works against the reason we do testing. Practically this is where many teams just abandon testing.
- 
-The tests are an opportunity for something else - a friendly and smiley assistant, one that it's delightful to work with and delivers great value for such a  small investment.  Science tells we have two brain systems: system 1 which is used for effortless activities like driving a car on an empty road and system 2 which is meant for complex and conscious operations like solving a math equation. Design your test for system 1, when looking at test code it should *feel* as easy as modifying an HTML document and not like solving 2X(17 × 24).
+우리의 마음은 주요 프로덕션 코드로 가득 차 있으며 추가적인 복잡성을 위한 '머릿속 공간'이 없습니다. 우리의 부족한 두뇌에서 또 다른 도전적인 코드를 쥐어짜내려는 시도는 팀을 느리게 만들고, 이는 테스트를 하는 이유에 반대됩니다. 실제로 이것이 많은 팀이 테스트를 포기하는 지점입니다.
 
-This can be achieved by selectively cherry-picking techniques, tools and test targets that are cost-effective and provide great ROI. Test only as much as needed, strive to keep it nimble, sometimes it's even worth dropping some tests and trade reliability for agility and simplicity.
+테스트는 또 다른 기회입니다. 함께 일하기 즐겁고, 적은 투자로 큰 가치를 제공하는 친절한 조수와 함께 일할 기회입니다. 과학은 우리에게 두 가지 뇌 시스템이 있다고 말합니다. 빈 도로에서 자동차를 운전하는 것과 같이 힘들지 않은 활동에 사용되는 시스템 1과 수학 방정식을 푸는 것과 같이 복잡하고 의식적인 작업을 위한 시스템 2입니다. 시스템 1을 위한 테스트를 디자인하세요. 테스트 코드를 보는 것은 HTML 문서를 수정하는 것만큼 쉽게 **느껴져야**하며 2X(17 × 24)를 푸는 것 같이 느껴져선 안됩니다.
+
+이는 선택적 체리피킹 기법, 비용-효율적이고 뛰어난 ROI를 제공하는 도구 및 테스트 대상을 통해 달성 할 수 있습니다. 필요한 만큼만 테스트하고, 민첩하게 유지하려고 노력하세요. 때로는 일부 테스트를 제거함으로써 민첩성과 단순성을 위해 신뢰성을 희생할 가치가 있습니다.
 
 ![alt text](/assets/headspace.png "We have no head room for additional complexity")
  
-Most of the advice below are derivatives of this principle.
+아래의 조언 중 대부분은 이 원칙에서 파생된 결과물입니다.
 
-### Ready to start?
+### 시작할 준비가 되었나요?
 
 
 <br/><br/>
 
-# Section 1. The Test Anatomy
+# Section 1. 테스트 해부
 
 <br/>
 
-## ⚪ ️ 1.1 Include 3 parts in each test name
+## ⚪ ️ 1.1 각 테스트명에 3가지 요소를 포함할 것
 
-:white_check_mark: **Do:** A test report should tell whether the current application revision satisfies the requirements for the people who are not necessarily familiar with the code: the tester, the DevOps engineer who is deploying and the future you two years from now. This can be achieved best if the tests speak at the requirements level and include 3 parts:
+:white_check_mark: **하세요:** A test report should tell whether the current application revision satisfies the requirements for the people who are not necessarily familiar with the code: the tester, the DevOps engineer who is deploying and the future you two years from now. This can be achieved best if the tests speak at the requirements level and include 3 parts:
 
-(1) What is being tested? For example, the ProductsService.addNewProduct method
+테스트 리포트는 코드에 익숙하지 않은 사람들 (테스터, 배포 중인 DevOps 엔지니어, 2년 후의 자신)에게 현재 어플리케이션 리비전이 요구 사항을 충족하는지 여부를 알려줘야 합니다. 이를 잘 달성하기 위해서는 테스트가 요구 사항 수준에서 표현되고 3가지 요소를 포함해야 합니다.
 
-(2) Under what circumstances and scenario? For example, no price is passed to the method
+(1) 무엇을 테스트하나요? 예를 들면, ProductsService.addNewProduct 메소드
 
-(3) What is the expected result? For example, the new product is not approved
+(2) 어떤 상황과 시나리오에서? 예를 들면, 메소드에 가격이 전달되지 않은 경우
 
-<br/>
-
-
-❌ **Otherwise:** A deployment just failed, a test named “Add product” failed. Does this tell you what exactly is malfunctioning?
+(3) 어떤 결과가 예상되나요? 예를 들면, 새로운 제품이 승인되지 않는다
 
 <br/>
 
-**👇 Note:** Each bullet has code examples and sometime also an image illustration. Click to expand
+
+❌ **하지 않으면:** 배포에 실패했습니다. "제품 추가"라는 테스트에 실패했습니다. 이 테스트명이 정확히 어디가 오작동 하는지 알려 주나요?
+
+<br/>
+
+**👇 Note:** 각 항목에는 예제 코드가 있으며 때로는 이미지도 있습니다. 클릭하여 확장할 수 있습니다.
 <details><summary>✏ <b>Code Examples</b></summary>
   
 <br/>
   
-### :clap: Doing It Right Example: A test name that constitutes 3 parts
+### :clap: 올바른 예제: 3가지 요소를 포함하는 테스트명
 
 ![](https://img.shields.io/badge/🔨%20Example%20using%20Mocha-blue.svg
  "Using Mocha to illustrate the idea")
 
 ```javascript
-//1. unit under test
+//1. 테스트 대상
 describe('Products Service', function() {
   describe('Add new product', function() {
-    //2. scenario and 3. expectation
+    //2. 시나리오 and 3. 예상 결과
     it('When no price is specified, then the product status is pending approval', ()=> {
       const newProduct = new ProductService().add(...);
       expect(newProduct.status).to.equal('pendingApproval');
@@ -133,7 +134,7 @@ describe('Products Service', function() {
 ```
 <br/>
 
-### :clap: Doing It Right Example: A test name that constitutes 3 parts
+### :clap: 올바른 예제: 3가지 요소를 포함하는 테스트명
 ![alt text](/assets/bp-1-3-parts.jpeg "A test name that constitutes 3 parts")
 
 </details>
