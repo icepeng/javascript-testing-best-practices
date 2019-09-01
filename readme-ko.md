@@ -319,17 +319,17 @@ it("White-box test: When the internal methods get 0 vat, it return 0 response", 
 
 <br/><br/>
 
-## ⚪ ️ ️1.5 Choose the right test doubles: Avoid mocks in favor of stubs and spies
+## ⚪ ️ ️1.5 올바른 테스트 더블을 선택할 것: Mock을 피하고 Stub과 Spy를 선호
 
-:white_check_mark: **하세요:**  Test doubles are a necessary evil because they are coupled to the application internals, yet some provide an immense value (<a href="https://martinfowler.com/articles/mocksArentStubs.html" data-href="https://martinfowler.com/articles/mocksArentStubs.html" class="markup--anchor markup--p-anchor" rel="noopener nofollow" target="_blank">[Read here a reminder about test doubles: mocks vs stubs vs spies](https://martinfowler.com/articles/mocksArentStubs.html)</a>).
+:white_check_mark: **하세요:**  테스트 더블은 애플리케이션 내부와 결합하고 있기에 필요악이지만, 그래도 일부는 엄청난 가치를 제공합니다 (<a href="https://martinfowler.com/articles/mocksArentStubs.html" data-href="https://martinfowler.com/articles/mocksArentStubs.html" class="markup--anchor markup--p-anchor" rel="noopener nofollow" target="_blank">[여기서 테스트 더블에 대한 조언을 읽어보세요: mocks vs stubs vs spies](https://martinfowler.com/articles/mocksArentStubs.html)</a>).
 
-Before using test doubles, ask a very simple question: Do I use it to test functionality that appears, or could appear, in the requirements document? If no, it’s a smell of white-box testing.
+테스트 더블을 사용하기 전에 매우 간단한 질문을 해보세요. 요구사항 문서에 나타나거나 나타날 가능성이 있는 기능을 테스트하는데 사용하나요? 아니라면, 화이트박스 테스트의 냄새가 납니다.
 
-For example, if you want to test what your app behaves reasonably when the payment service is down, you might stub the payment service and trigger some ‘No Response’ return to ensure that the unit under test returns the right value. This checks our application behavior/response/outcome under certain scenarios. You might also use a spy to assert that an email was sent when that service is down — this is again a behavioral check which is likely to appear in a requirements doc (“Send an email if payment couldn’t be saved”). On the flip side, if you mock the Payment service and ensure that it was called with the right JavaScript types — then your test is focused on internal things that got nothing with the application functionality and are likely to change frequently
+예를 들어, 결제 서비스가 중단되었을 때 앱이 합리적으로 동작하는 것을 테스트하려는 경우 결제 서비스를 Stub하고 '응답 없음' 반환을 트리거해서 테스트 중인 단위가 올바른 값을 반환하도록 할 수 있습니다. 이는 특정 시나리오에서 애플리케이션의 동작/응답/결과를 확인합니다. 또한 Spy를 사용하여 해당 서비스가 중단되었을 때 이메일이 전송되었는지 확인할 수 있습니다 — 이 또한 요구사항 문서("결제를 저장할 수 없는 경우 이메일 보내기")에 나타날 수 있는 동작을 점검하는 것입니다. 반대로 결제 서비스를 Mock하고 올바른 JavaScript 타입으로 호출되었는지 확인한다면 — 테스트는 애플리케이션 기능과 관계없고 자주 변경되는 내부적인 것들에 집중하게 됩니다.
 <br/>
 
 
-❌ **하지 않으면:** Any refactoring of code mandates searching for all the mocks in the code and updating accordingly. Tests become a burden rather than a helpful friend
+❌ **하지 않으면:** 코드를 리팩토링하려면 코드 내의 모든 Mock을 검색하고 그에 따라 업데이트해야 합니다. 테스트가 친구가 아닌 짐이 되어버립니다.
 
 <br/>
 
@@ -337,7 +337,7 @@ For example, if you want to test what your app behaves reasonably when the payme
 
 <br/>
 
-### :thumbsdown: Anti-pattern example: Mocks focus on the internals
+### :thumbsdown: 안티패턴 예제: 내부에 집중하는 Mock
 ![](https://img.shields.io/badge/🔧%20Example%20using%20Sinon-blue.svg
  "Examples with Mocha & Chai")
 ```javascript
@@ -352,7 +352,7 @@ it("When a valid product is about to be deleted, ensure data access DAL was call
 ```
 <br/>
 
-### :clap:올바른 예제: spies are focused on testing the requirements but as a side-effect are unavoidably touching to the internals
+### :clap:올바른 예제: Spy는 요구사항인 부작용을 테스트하기 위해 내부에 접근하는 것을 피할 수 없을 때 사용
 
 ```javascript
 it("When a valid product is about to be deleted, ensure an email is sent", async () => {
@@ -369,13 +369,13 @@ it("When a valid product is about to be deleted, ensure an email is sent", async
 
 <br/><br/>
 
-## ⚪ ️1.6 Don’t “foo”, use realistic input data
+## ⚪ ️1.6 “foo” 금지, 현실적인 입력 데이터 사용
 
-:white_check_mark: **하세요:**  Often production bugs are revealed under some very specific and surprising input — the more realistic the test input is, the greater the chances are to catch bugs early. Use dedicated libraries like [Faker](https://www.npmjs.com/package/faker) to generate pseudo-real data that resembles the variety and form of production data. For example, such libraries can generate realistic phone numbers, usernames, credit card, company names, and even ‘lorem ipsum’ text. You may also create some tests (on top of unit tests, not instead) that randomize fakers data to stretch your unit under test or even import real data from your production environment. Want to take it to the next level? see next bullet (property-based testing).
+:white_check_mark: **하세요:**  프로덕션 버그는 종종 매우 구체적이고 놀라운 입력에서 발견되곤 합니다. 테스트 입력이 현실적일수록, 버그를 조기에 발견할 가능성이 커집니다. [Faker](https://www.npmjs.com/package/faker) 와 같은 전용 라이브러리를 사용하여 프로덕션 데이터의 형태와 유사한 유사-실제 데이터를 생성하세요. 예를 들어, 이런 라이브러리는 현실적인 전화번호, 사용자 이름, 신용카드, 회사 이름 및 'lorem ipsum' 텍스트까지 생성할 수 있습니다. 또한 단위 테스트에 추가로(대체하는 것이 아님) faker의 데이터를 무작위로 생성해서 테스트 단위를 확장하거나, 프로덕션 환경에서 실제 데이터를 가져오는 테스트를 만들 수도 있습니다. 다음 단계로 나아가고 싶나요? 다음 항목(속성 기반 테스트)을 보세요.
 <br/>
 
 
-❌ **하지 않으면:** All your development testing will falsely seem green when you use synthetic inputs like “Foo” but then production might turn red when a hacker passes-in a nasty string like “@3e2ddsf . ##’ 1 fdsfds . fds432 AAAA”
+❌ **하지 않으면:** “Foo” 와 같은 인공적인 입력을 사용하면 모든 테스트가 초록불이 거짓으로 켜지지만, 해커가 “@3e2ddsf . ##’ 1 fdsfds . fds432 AAAA”와 같은 고약한 문자열을 전달하면 프로덕션에서 빨간불이 켜집니다.
 
 
 <br/>
@@ -384,7 +384,7 @@ it("When a valid product is about to be deleted, ensure an email is sent", async
 
 <br/>
 
-### :thumbsdown: Anti-Pattern Example: A test suite that passes due to non-realistic data
+### :thumbsdown: 안티패턴 예제: 비현실적 데이터로 인해 통과하는 테스트
 
 ![](https://img.shields.io/badge/🔧%20Example%20using%20Jest-blue.svg
  "Examples with Jest")
@@ -412,7 +412,7 @@ test("Wrong: When adding new product with valid properties, get successful confi
 ```
 <br/>
 
-### :clap:올바른 예제: Randomizing realistic input
+### :clap:올바른 예제: 무작위화된 현실적인 입력
 ```javascript
 it("Better: When adding new valid product, get successful confirmation", async () => {
     const addProductResult = addProduct(faker.commerce.productName(), faker.random.number());
@@ -430,13 +430,13 @@ it("Better: When adding new valid product, get successful confirmation", async (
 
 <br/><br/>
 
-## ⚪ ️ 1.7 Test many input combinations using Property-based testing
+## ⚪ ️ 1.7 속성 기반 테스트를 사용하여 많은 입력 조합을 테스트
 
-:white_check_mark: **하세요:** Typically we choose a few input samples for each test. Even when the input format resembles real-world data (see bullet ‘Don’t foo’), we cover only a few input combinations (method(‘’, true, 1), method(“string” , false” , 0)), However, in production, an API that is called with 5 parameters can be invoked with thousands of different permutations, one of them might render our process down ([see Fuzz Testing](https://en.wikipedia.org/wiki/Fuzzing)). What if you could write a single test that sends 1000 permutations of different inputs automatically and catches for which input our code fails to return the right response? Property-based testing is a technique that does exactly that: by sending all the possible input combinations to your unit under test it increases the serendipity of finding a bug. For example, given a method — addNewProduct(id, name, isDiscount) — the supporting libraries will call this method with many combinations of (number, string, boolean) like (1, “iPhone”, false), (2, “Galaxy”, true). You can run property-based testing using your favorite test runner (Mocha, Jest, etc) using libraries like [js-verify](https://github.com/jsverify/jsverify) or [testcheck](https://github.com/leebyron/testcheck-js) (much better documentation). Update: Nicolas Dubien suggests in the comments below to [checkout fast-check](https://github.com/dubzzz/fast-check#readme) which seems to offer some additional features and also to be actively maintained
+:white_check_mark: **하세요:** 일반적으로 테스트마다 몇 가지 입력 샘플을 선택합니다. 입력 형식이 실제 데이터와 비슷하더라도(‘Foo 금지’ 항목 참고), 몇 안 되는 입력 조합(method(‘’, true, 1), method(“string” , false” , 0))만 다룰 뿐입니다. 하지만 프로덕션 환경에서는 5개의 매개변수로 호출되는 API가 수천 가지 다른 순열로 호출될 수 있으며, 그중 하나가 프로세스를 중단시킬 수 있습니다([see Fuzz Testing](https://en.wikipedia.org/wiki/Fuzzing)). 1,000가지 다른 입력의 순열을 자동으로 전달해서 코드가 올바르지 않은 값을 반환하게 만드는 입력을 잡아내는 단 하나의 테스트를 작성할 수 있다면 어떨까요? 속성 기반 테스트가 바로 그 기술입니다. 가능한 모든 입력 조합을 테스트 단위로 전달해 버그를 발견할 확률을 높입니다. 예를 들어, 주어진 메소드 — addNewProduct(id, name, isDiscount) — 가 있을 때 라이브러리는 이 메소드를 (1, “iPhone”, false), (2, “Galaxy”, true)와 같이 (number, string, boolean)의 수많은 조합으로 호출합니다. [js-verify](https://github.com/jsverify/jsverify) 혹은 [testcheck](https://github.com/leebyron/testcheck-js) (훨씬 나은 문서)와 같은 라이브러리를 사용하여 선호하는 테스트 러너(Mocha, Jest 등)에서 속성 기반 테스트를 실행할 수 있습니다. 업데이트: Nicolas Dubien은 몇 가지 추가 기능을 제공하고 활발히 관리되고 있는 [fast-check](https://github.com/dubzzz/fast-check#readme)을 코멘트에서 제안합니다.
 <br/>
 
 
-❌ **하지 않으면:** Unconsciously, you choose the test inputs that cover only code paths that work well. Unfortunately, this decreases the efficiency of testing as a vehicle to expose bugs
+❌ **하지 않으면:** 무의식적으로 잘 작동하는 코드 경로만 지나가는 테스트 입력을 사용하게 됩니다. 불행히도 이것은 버그를 드러내는 수단으로서의 테스트 효율을 떨어트립니다.
 
 
 <br/>
@@ -445,7 +445,7 @@ it("Better: When adding new valid product, get successful confirmation", async (
 
 <br/>
 
-### :clap:  올바른 예제: Testing many input permutations with “mocha-testcheck”
+### :clap:  올바른 예제: “mocha-testcheck”을 이용해 많은 입력 조합을 테스트
 
 ![](https://img.shields.io/badge/🔧%20Example%20using%20Mocha-blue.svg
  "Examples with Jest")
@@ -473,11 +473,11 @@ describe('Product service', () => {
 
 <br/><br/>
 
-## ⚪ ️ 1.8 If needed, use only short & inline snapshots
+## ⚪ ️ 1.8 필요하다면, 짧은 인라인 스냅샷을 사용할 것
 
-:white_check_mark: **하세요:** When there is a need for [snapshot testing](https://jestjs.io/docs/en/snapshot-testing), use only short and focused snapshots (i.e. 3-7 lines) that are included as part of the test ([Inline Snapshot](https://jestjs.io/docs/en/snapshot-testing#inline-snapshots)) and not within external files. Keeping this guideline will ensure your tests remain self-explanatory and less fragile.
+:white_check_mark: **하세요:** [스냅샷 테스트](https://jestjs.io/docs/en/snapshot-testing)가 필요한 경우, 외부 파일 없이 테스트의 일부로 포함되는([인라인 스냅샷](https://jestjs.io/docs/en/snapshot-testing#inline-snapshots)) 짧은 스냅샷만 사용하세요. 이 가이드라인을 유지하면 테스트가 자명해지고 덜 깨집니다.
 
-On the other hand, ‘classic snapshots’ tutorials and tools encourage to store big files (e.g. component rendering markup, API JSON result) over some external medium and ensure each time when the test run to compare the received result with the saved version. This, for example, can implicitly couple our test to 1000 lines with 3000 data values that the test writer never read and reasoned about. Why is this wrong? By doing so, there are 1000 reasons for your test to fail - it’s enough for a single line to change for the snapshot to get invalid and this is likely to happen a lot. How frequently? for every space, comment or minor CSS/HTML change. Not only this, the test name wouldn’t give a clue about the failure as it just checks that 1000 lines didn’t change, also it encourages to the test writer to accept as the desired true a long document he couldn’t inspect and verify. All of these are symptoms of obscure and eager test that is not focused and aims to achieve too much
+반면 ‘전통적 스냅샷’ 튜토리얼과 도구는 외부 매체에 큰 파일 (예: 컴포넌트 렌더링 마크업, API JSON 결과)을 저장하고 테스트가 실행될 때 마다 결과를 저장된 버전과 비교하도록 합니다. This, for example, can implicitly couple our test to 1000 lines with 3000 data values that the test writer never read and reasoned about. Why is this wrong? By doing so, there are 1000 reasons for your test to fail - it’s enough for a single line to change for the snapshot to get invalid and this is likely to happen a lot. How frequently? for every space, comment or minor CSS/HTML change. Not only this, the test name wouldn’t give a clue about the failure as it just checks that 1000 lines didn’t change, also it encourages to the test writer to accept as the desired true a long document he couldn’t inspect and verify. All of these are symptoms of obscure and eager test that is not focused and aims to achieve too much
 
 It’s worth noting that there are few cases where long & external snapshots are acceptable - when asserting on schema and not data (extracting out values and focusing on fields) or when the received document rarely changes
 <br/>
@@ -490,7 +490,7 @@ It’s worth noting that there are few cases where long & external snapshots are
 
 <br/>
 
-### :thumbsdown: Anti-Pattern Example: Coupling our test to unseen 2000 lines of code
+### :thumbsdown: 안티패턴 예제: Coupling our test to unseen 2000 lines of code
 
 ![](https://img.shields.io/badge/🔧%20Example%20using%20Jest-blue.svg
  "Examples with Jest")
@@ -619,7 +619,7 @@ A more elegant alternative is the using the one-line dedicated Chai assertion: e
 
 <br/>
 
-### :thumbsdown: Anti-pattern Example: A long test case that tries to assert the existence of error with try-catch
+### :thumbsdown: 안티패턴 예제: A long test case that tries to assert the existence of error with try-catch
 
 ![](https://img.shields.io/badge/🔧%20Example%20using%20Mocha-blue.svg
  "Examples with Jest")
@@ -1080,7 +1080,7 @@ test('When flagging to show only VIP, should display only VIP members', () => {
 
 <br/>
 
-### :thumbsdown: Anti-Pattern Example: Relying on CSS attributes
+### :thumbsdown: 안티패턴 예제: Relying on CSS attributes
 ```html
 <!-- the markup code (part of React component) -->
 <span id="metric" className="d-flex-column">{value}</span> <!-- what if the designer changes the classs? -->
@@ -1156,7 +1156,7 @@ test('Realistic approach: When clicked to show filters, filters are displayed', 
 
 ```
 
-### :thumbsdown: Anti-Pattern Example: Mocking the reality with shallow rendering
+### :thumbsdown: 안티패턴 예제: Mocking the reality with shallow rendering
 ```javascript
 
 test('Shallow/mocked approach: When clicked to show filters, filters are displayed', () => {
@@ -1225,7 +1225,7 @@ test('movie title appears', async () => {
 
 ```
 
-### :thumbsdown: Anti-Pattern Example: custom sleep code
+### :thumbsdown: 안티패턴 예제: custom sleep code
 ```javascript
 
 test('movie title appears', async () => {
@@ -1642,7 +1642,7 @@ Implementation tips: You may want to configure your continuous integration (CI) 
 
 <br/>
 
-### :thumbsdown: Anti-Pattern Example: What’s wrong with this coverage report? based on a real-world scenario where we tracked our application usage in QA and find out interesting login patterns (Hint: the amount of login failures is non-proportional, something is clearly wrong. Finally it turned out that some frontend bug keeps hitting the backend login API)
+### :thumbsdown: 안티패턴 예제: What’s wrong with this coverage report? based on a real-world scenario where we tracked our application usage in QA and find out interesting login patterns (Hint: the amount of login failures is non-proportional, something is clearly wrong. Finally it turned out that some frontend bug keeps hitting the backend login API)
 
 ![alt text](assets/bp-19-coverage-yoni-goldberg-nodejs-consultant.png "What’s wrong with this coverage report? based on a real-world scenario where we tracked our application usage in QA and find out interesting login patterns (Hint: the amount of login failures is non-proportional, something is clearly wrong. Finally it turned out that some frontend bug keeps hitting the backend login API)
 
